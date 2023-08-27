@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Shopping Home</title>
+        <script src="../node_modules/jquery/dist/jquery.js"></script>
+        <script src="../node_modules/jquery.cookie/jquery.cookie.js"></script>
+        <script>
+            $(function(){
+                if($.cookie("userid")==undefined) {
+                    location.href="login.html";
+                } else {
+                    $("#user").html($.cookie("userid"));
+                }
+                $("button").click(function(){
+                    $.removeCookie("userid");
+                    location.href="login.html";
+                })
+            })
+        </script>
+    </head>
+    <body>
+        <h2>Shopping Home - <span id="user"></span> </h2>
+        <button>Signout</button>
+        <a href="index.html">Go to Index</a>
+    </body>
+</html>

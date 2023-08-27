@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register User</title>
+        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+        <script src="../node_modules/jquery/dist/jquery.js"></script>
+        <script>
+            $(function(){
+
+                 $("#UserId").keyup(function(){
+                     var userid = $("#UserId").val();
+                     $.ajax({
+                         method: "GET", 
+                         url: "http://localhost:8080/getusers",
+                         success : function(data){
+                             for(var user of data)
+                             {
+                                 if(user.UserId==userid){
+                                     $("#UserError").html("User Id Taken").addClass("text-danger");
+                                     break;
+                                 } else {
+                                     $("#UserError").html("User Id Available").addClass("text-success");
+                                 }
+                             }
+                         }
+                     })
+                 })
+
+                 $("#btnRegister").click(function(){
+                     var userDetails = {
+                         "UserId": $("#UserName").val(),
+                         "UserName": $("#UserName").val(),
+                         "Password": $("#Password").val(),
+                         "Email": $("#Email").val(),
+                         "Mobile": $("#Mobile").val()
+                     };
+                     $.ajax({
+                         method: "POST",
+                         url: "http://localhost:8080/registeruser",
+                         data: userDetails
+                     })
+                            alert("Registered Successfully");
+                            location.href="login.html";
+                 })
+            })
+        </script>
+    </head>
+    <body class="container-fluid">
+        <h3>Register New User</h3>
+        <div class="w-25">
+            <dl>
+                <dt>User Id</dt>
+                <dd><input type="text" id="UserId" class="form-control"></dd>
+                <dd id="UserError"></dd>
+                <dt>User Name</dt>
+                <dd><input type="text" id="UserName" class="form-control"></dd>
+                <dt>Password</dt>
+                <dd><input type="password" id="Password" class="form-control"></dd>
+                <dt>Email</dt>
+                <dd><input type="email" id="Email" class="form-control"></dd>
+                <dt>Mobile</dt>
+                <dd><input type="text" id="Mobile" class="form-control"></dd>
+            </dl>
+            <button id="btnRegister" class="btn btn-primary w-100">Register</button>
+        </div>
+        <a href="login.html">Existing User?</a>
+    </body>
+</html>

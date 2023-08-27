@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register User</title>
+        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+        <script src="../node_modules/jquery/dist/jquery.js"></script>
+        <script src="../node_modules/jquery.cookie/jquery.cookie.js"></script>
+        <script>
+            $(function(){
+                 $("#btnLogin").click(function(){
+                     var userid = $("#UserId").val();
+                     var password = $("#Password").val();
+
+                     $.ajax({
+                         method: "GET", 
+                         url: "http://localhost:8080/getusers",
+                         success: function(data){
+                             var user = data.find(user=> user.UserId==userid);
+                             if(user.UserId==userid && user.Password==password)
+                             {
+                                 $.cookie("userid", $("#UserId").val());
+                                 location.href = "home.html";
+                             } else {
+                                $("h4").html("Invalid User Id / Password");
+                             }
+                         }
+                     })
+                 })
+            })
+        </script>
+    </head>
+    <body class="container-fluid">
+        <h3>User Login</h3>
+        <div class="w-25">
+            <dl>
+                <dt>User Id</dt>
+                <dd><input type="text" id="UserId" class="form-control"></dd>
+                <dt>Password</dt>
+                <dd><input type="password" id="Password" class="form-control"></dd>
+            </dl>
+            <button id="btnLogin" class="btn btn-primary w-100">Login</button>
+        </div>
+        <h4></h4>
+        <a href="register.html">New User?</a>
+    </body>
+</html>
